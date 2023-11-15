@@ -5,14 +5,11 @@
   <img src="https://github.com/omar546/flag_master/assets/71936776/938908c5-0b58-44ab-a648-9e73877fd571" alt="ShopSavvy">
 </p>
 
-<h1 align="center">
-  Flag Guessing Flutter App
-</h1>
 
 
 
-<h3 align="center">
-Flag Master is a mobile app designed to test and improve your knowledge of world flags through an engaging guessing game. Challenge yourself to identify flags from different countries and see how high you can score!</h3>
+<h4 align="center">
+Flag Master is a mobile app designed to test and improve your knowledge of world flags through an engaging guessing game. Challenge yourself to identify flags from different countries and see how high you can score!</h4>
 
 
 ## Features
