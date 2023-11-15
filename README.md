@@ -30,7 +30,6 @@ you can try it by downloading it directly from <a href="https://download1647.med
 
 
 
-it was created in a very short timeframe (speed challenge)
-
+<sub> it was created in a very short timeframe (speed challenge)</sub>
 
 ---
