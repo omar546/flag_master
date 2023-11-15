@@ -2,7 +2,7 @@
 
 
 <p align="center">
-  <img src="https://github.com/omar546/ShopSavvy/assets/71936776/7b3fa871-b105-43e8-bb53-f333baa7204c" alt="ShopSavvy">
+  <img src="https://github.com/omar546/flag_master/assets/71936776/938908c5-0b58-44ab-a648-9e73877fd571" alt="ShopSavvy">
 </p>
 
 <h1 align="center">
@@ -21,12 +21,13 @@ Flag Master is a mobile app designed to test and improve your knowledge of world
 - **Score Tracking:** Keep track of your score as you answer correctly or make mistakes.
 
 ## Screenshots
+![on git hub show apps](https://github.com/omar546/flag_master/assets/71936776/da3372f3-3740-4827-b813-8548f299844c)
 
-[Add screenshots or GIFs of your app in action]
+
 
 ## Getting Started
 
-you can try it by downloading it directly from <a href="https://download939.mediafire.com/sar2ix57ycpgw6mHoprCeNXJUXzmTaojmFFwSD21wHqKqdIgZDYcoAVuPS1UjDCyqpvHThOEAaa4F879wJhV2nv6MzvYP4kh1LVchgjM-h9VASVBCaW_ZTZqndUxR7bScFOnyW9WVw9Fm1LYlLmW2E5WsiFjG73oe5Pe4uzGkm10CA4/2tx7sx9pmkubia1/ShopSavvy.apk">HERE</a></h3>
+you can try it by downloading it directly from <a href="https://download1647.mediafire.com/414ty49p5tvg6M256DKZPISrTTkTk_ukfUIbWQR9bV70MgkgCZlfXcq0-10vQVcZRZLFkU-PACmxVvxRC8_BaGubAvbl545xQIAHMX6tjXLZSLq18J4hQMhhpBsRBhkP3VDchNZHOxV1T70eU8_vkiAtuQGhphZJpdEZq2DBHvL0EYI/k65iq35qxfdo0gh/FlagMaster.apk">HERE</a></h3>
 
 
 
