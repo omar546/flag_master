@@ -59,7 +59,7 @@ class _GameScreenState extends State<GameScreen> {
     var random = Random();
     List<String> randomOptions = [correctOption];
 
-    while (randomOptions.length < 3) {
+    while (randomOptions.length < 4) {
       String randomOption = allOptions[random.nextInt(allOptions.length)];
       if (!randomOptions.contains(randomOption)) {
         randomOptions.add(randomOption);
@@ -86,6 +86,7 @@ class _GameScreenState extends State<GameScreen> {
             _buildOptionButton(options[0]),
             _buildOptionButton(options[1]),
             _buildOptionButton(options[2]),
+            _buildOptionButton(options[3]),
           ],
         ),
       ),
