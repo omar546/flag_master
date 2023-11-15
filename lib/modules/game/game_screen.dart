@@ -107,7 +107,7 @@ class _GameScreenState extends State<GameScreen> {
               ? (option == currentCountry
               ? MaterialStateProperty.all(Colors.green)
               : MaterialStateProperty.all(Colors.red))
-              : MaterialStateProperty.all(MyColors.fire),
+              : MaterialStateProperty.all(MyColors.blackGreyColor),
         ),
         child: SizedBox(
           width: double.infinity,
@@ -115,7 +115,7 @@ class _GameScreenState extends State<GameScreen> {
           child: Center(child: Text(option,textAlign: TextAlign.center,style: TextStyle(fontSize: 20,fontFamily: 'bebas',foreground: Paint()
             ..style = PaintingStyle.fill
             ..strokeWidth = .5
-            ..color = MyColors.blackColor,),)),
+            ..color = MyColors.whiteColor,),)),
         ),
       ),
     );
