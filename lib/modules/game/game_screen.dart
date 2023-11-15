@@ -112,7 +112,10 @@ class _GameScreenState extends State<GameScreen> {
         child: SizedBox(
           width: double.infinity,
           height: 50,
-          child: Center(child: Text(option,textAlign: TextAlign.center,style: TextStyle(fontSize: 20,fontFamily: 'bebas'),)),
+          child: Center(child: Text(option,textAlign: TextAlign.center,style: TextStyle(fontSize: 20,fontFamily: 'bebas',foreground: Paint()
+            ..style = PaintingStyle.fill
+            ..strokeWidth = .5
+            ..color = MyColors.blackColor,),)),
         ),
       ),
     );
@@ -139,7 +142,7 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   void _delayedNextFlag() {
-    Timer(const Duration(seconds: 4), () {
+    Timer(const Duration(seconds: 2), () {
       setState(() {
         _showRandomFlag();
       });
