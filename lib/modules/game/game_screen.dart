@@ -75,7 +75,7 @@ class _GameScreenState extends State<GameScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('Score: $score',style: TextStyle(fontFamily: 'futura',fontSize: 20),)),
+        title: Center(child: Text('Score: $score',style: TextStyle(fontFamily: 'futura',fontSize: 20,color: MyColors.blackColor),)),
       ),
       body: Center(
         child: Column(
@@ -110,7 +110,7 @@ class _GameScreenState extends State<GameScreen> {
               : MaterialStateProperty.all(MyColors.blackGreyColor),
         ),
         child: SizedBox(
-          width: double.infinity,
+          width: 300,
           height: 50,
           child: Center(child: Text(option,textAlign: TextAlign.center,style: TextStyle(fontSize: 20,fontFamily: 'bebas',foreground: Paint()
             ..style = PaintingStyle.fill

@@ -60,14 +60,14 @@ ThemeData darkTheme = ThemeData(
     appBarTheme: const AppBarTheme(
       iconTheme: IconThemeData(color: MyColors.whiteColor),
       systemOverlayStyle: SystemUiOverlayStyle(
-        statusBarColor: MyColors.blackColor,
+        statusBarColor: MyColors.greyColor,
         statusBarIconBrightness: Brightness.light,
       ),
-      backgroundColor: MyColors.blackColor,
+      backgroundColor: MyColors.greyColor,
       elevation: 0.0,
       titleTextStyle: TextStyle(color: MyColors.whiteColor),
     ),
-    scaffoldBackgroundColor: MyColors.blackColor,
+    scaffoldBackgroundColor: MyColors.greyColor,
     primarySwatch: customColorOrange,
     textTheme: TextTheme(
       bodyMedium: const TextStyle(
