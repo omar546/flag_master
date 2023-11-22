@@ -24,7 +24,7 @@ Flag Master is a mobile app designed to test and improve your knowledge of world
 
 ## Getting Started
 
-you can try it by downloading it directly from <a href="https://download1085.mediafire.com/kskzu3hyrllgaqA6VDGEUPFGp4-I0r3MLsK3VsGD3v2Ps_CgDlaXMTEGqwFkScHSOGLmUNfM5SIQ-Oq4PpehpxVxt9-xG-3jPk4MbxfAMfJFbC0iVraodf4BOdkBi9C9ESotiSacmBtgdeVQhJpJCuXB_G8UU4HP2BQqz0qE3SaBaA/un8yxssqqtz06yh/FlagMaster.apk">HERE</a></h3>
+you can try it by downloading it directly from <a href="https://download1584.mediafire.com/qowc8k9a75qgvPYwLxUc_8jiPHEJWbRM-235X1T2ZNwVAs2e9mpnOc8Ktc0GX6oMF88J-1wipnHGaw0sv3ImdZg6NcylAu5OgPECx_t7etk0dZD22fIxUF39N5Ci2IE-2MmZZKMzRv-3Sih76F97uUOb69QIjG_9sSe2BiXaBPc7IA/rzqms69p7qm3ohr/FlagMaster.apk">HERE</a></h3>
 
 
 
