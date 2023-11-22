@@ -4,6 +4,7 @@ import 'package:flag_master/shared/styles/colors.dart';
 import 'package:flutter/material.dart';
 import '../../data/flag_data.dart';
 import '../../network/local/cache_helper.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class GameScreen extends StatefulWidget {
   const GameScreen({Key? key}) : super(key: key);
@@ -18,7 +19,9 @@ class _GameScreenState extends State<GameScreen> {
   List<String> options = [];
   bool isAnswered = false;
   int score = 0;
-
+// ...
+  final player = AudioPlayer();
+  final player2 = AudioPlayer();
   @override
   void initState() {
     super.initState();
@@ -121,7 +124,7 @@ class _GameScreenState extends State<GameScreen> {
     );
   }
 
-  void _handleAnswer(String selectedOption) {
+  Future<void> _handleAnswer(String selectedOption) async {
     setState(() {
       isAnswered = true;
     });
@@ -130,10 +133,14 @@ class _GameScreenState extends State<GameScreen> {
       setState(() {
         score++;
       });
+      await player.play(AssetSource('sound/correct.mp3'));
+
     } else {
       setState(() {
         score--;
       });
+      await player2.play(AssetSource('sound/wrong.mp3'));
+
     }
 
     _saveScore(); // Save the score after updating it
