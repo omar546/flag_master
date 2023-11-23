@@ -2,7 +2,7 @@
 
 
 <p align="center">
-  <img src="https://github.com/omar546/flag_master/assets/71936776/938908c5-0b58-44ab-a648-9e73877fd571" alt="ShopSavvy">
+  <img src="https://github.com/omar546/flag_master/assets/71936776/938908c5-0b58-44ab-a648-9e73877fd571" alt="FlagMaster">
 </p>
 
 
