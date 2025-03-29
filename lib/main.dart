@@ -9,7 +9,6 @@
 // }
 import 'package:bloc/bloc.dart';
 import 'package:flag_master/modules/game/game_screen.dart';
-import 'package:flag_master/modules/onboarding/onboarding_screen.dart';
 import 'package:flag_master/shared/cubit/cubit.dart';
 import 'package:flag_master/shared/cubit/states.dart';
 import 'package:flag_master/shared/styles/styles.dart';
@@ -26,19 +25,19 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
   await CacheHelper.init();
-  Widget widget;
-  bool onBoarding = CacheHelper.getData(key: 'onBoarding') ?? false;
+  // Widget widget;
+  // bool onBoarding = CacheHelper.getData(key: 'onBoarding') ?? false;
+  //
 
-
-  if(onBoarding != false)
-  {
-
-      widget = const GameScreen();
-  }else
-  {
-    widget = const OnBoardingScreen();
-  }
-  runApp(MyApp(widget));
+  // if(onBoarding != false)
+  // {
+  //
+  //     widget = const GameScreen();
+  // }else
+  // {
+  //   widget = const OnBoardingScreen();
+  // }
+  runApp(const MyApp(GameScreen()));
 }
 
 

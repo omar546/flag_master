@@ -122,7 +122,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                       ),
                     ],
                   ),
-                  child: Image.asset(currentFlagPath, width: 400, height: 300),
+                  child: Image.asset(currentFlagPath, width: 350, height: 250),
                 ),
               ),
               const SizedBox(width: 40),
@@ -142,49 +142,50 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: AnimatedContainer(
-        duration: Duration(milliseconds: 800),
-        curve: Curves.easeInOut,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-          gradient: LinearGradient(
-            colors: isAnswered
-                ? (isCorrect ? [Colors.green, Colors.lightGreen] : [Colors.red, Colors.redAccent])
-                : [MyColors.blackGreyColor, Colors.black],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black26,
-              blurRadius: 15,
-              offset: Offset(0, 8),
+      child: MouseRegion(
+        onEnter: (_) => setState(() {}),
+        onExit: (_) => setState(() {}),
+        child: AnimatedContainer(
+          duration: Duration(milliseconds: 800),
+          curve: Curves.easeInOut,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            gradient: LinearGradient(
+              colors: isAnswered
+                  ? (isCorrect ? [Colors.green, Colors.lightGreen] : [Colors.red, Colors.redAccent])
+                  : [MyColors.blackGreyColor, Colors.black],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
-          ],
-        ),
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.transparent,
-            shadowColor: Colors.transparent,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 15,
+                offset: Offset(0, 8),
+              ),
+            ],
           ),
-          onPressed: isAnswered ? null : () => _handleAnswer(option),
-          child: SizedBox(
-            width: 250,
-            height: 50,
-            child: Center(
-              child: Text(
-                option,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 20,
-                  fontFamily: 'bebas',
-                  foreground: Paint()
-                    ..style = PaintingStyle.fill
-                    ..strokeWidth = 0.5
-                    ..color = MyColors.whiteColor,
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.transparent,
+              shadowColor: Colors.transparent,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+            ),
+            onPressed: isAnswered ? null : () => _handleAnswer(option),
+            child: SizedBox(
+              width: 250,
+              height: 50,
+              child: Center(
+                child: Text(
+                  option,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontFamily: 'bebas',
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
