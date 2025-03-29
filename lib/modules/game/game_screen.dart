@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:flag_master/shared/styles/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
 import '../../data/flag_data.dart';
 import '../../network/local/cache_helper.dart';
-import 'package:audioplayers/audioplayers.dart';
 
 class GameScreen extends StatefulWidget {
   const GameScreen({Key? key}) : super(key: key);
@@ -12,19 +13,21 @@ class GameScreen extends StatefulWidget {
   State<GameScreen> createState() => _GameScreenState();
 }
 
-class _GameScreenState extends State<GameScreen> {
+class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateMixin {
   String currentCountry = '';
   String currentFlagPath = '';
   List<String> options = [];
   bool isAnswered = false;
   int score = 0;
-
   final player = AudioPlayer();
   final player2 = AudioPlayer();
+  List<String> recentFlags = [];
 
   @override
   void initState() {
     super.initState();
+    player.setVolume(0.3);
+    player2.setVolume(0.3);
     _loadScore();
     _showRandomFlag();
   }
@@ -45,7 +48,16 @@ class _GameScreenState extends State<GameScreen> {
   void _showRandomFlag() {
     var random = Random();
     List<String> countryNames = countryFlagPaths.keys.toList();
-    String randomCountry = countryNames[random.nextInt(countryNames.length)];
+
+    String randomCountry;
+    do {
+      randomCountry = countryNames[random.nextInt(countryNames.length)];
+    } while (recentFlags.contains(randomCountry));
+
+    recentFlags.add(randomCountry);
+    if (recentFlags.length > 5) {
+      recentFlags.removeAt(0);
+    }
 
     options = _getRandomOptions(countryNames, randomCountry);
 
@@ -76,82 +88,109 @@ class _GameScreenState extends State<GameScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Score: $score', style: Theme.of(context).textTheme.titleLarge),
-        centerTitle: true,
-        elevation: 0,
+        title: Center(
+          child: Text(
+            'Score: $score',
+            style: TextStyle(
+              fontFamily: 'futura',
+              fontSize: 24,
+              color: MyColors.blackColor,
+            ),
+          ),
+        ),
       ),
       body: Center(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            bool isWide = constraints.maxWidth > 600;
-            return SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.easeInOut,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black26,
-                            blurRadius: 15,
-                            spreadRadius: 3,
-                          ),
-                        ],
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AnimatedContainer(
+                duration: Duration(milliseconds: 800),
+                curve: Curves.easeOutBack,
+                transform: Matrix4.identity()
+                  ..setEntry(3, 2, 0.001)
+                  ..rotateY(-0.2),
+                child: Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black26,
+                        blurRadius: 20,
+                        spreadRadius: 2,
+                        offset: Offset(0, 10),
                       ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image.asset(
-                          currentFlagPath,
-                          width: isWide ? 450 : 300,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 40),
-                    Wrap(
-                      spacing: 20,
-                      runSpacing: 20,
-                      alignment: WrapAlignment.center,
-                      children: options.map((option) => _buildOptionButton(option, isWide)).toList(),
-                    ),
-                    const SizedBox(height: 30),
-                    ElevatedButton.icon(
-                      onPressed: _showRandomFlag,
-                      icon: const Icon(Icons.refresh, size: 28),
-                      label: const Text('Next Flag', style: TextStyle(fontSize: 18)),
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
+                  child: Image.asset(currentFlagPath, width: 400, height: 300),
                 ),
               ),
-            );
-          },
+              const SizedBox(width: 40),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: options.map((option) => _buildOptionButton(option)).toList(),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildOptionButton(String option, bool isWide) {
-    return ElevatedButton(
-      onPressed: () => !isAnswered ? _handleAnswer(option) : null,
-      style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.white,
-        backgroundColor: isAnswered
-            ? (option == currentCountry ? Colors.green : Colors.red)
-            : Colors.blueAccent,
-        padding: EdgeInsets.symmetric(vertical: 16, horizontal: isWide ? 80 : 50),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+  Widget _buildOptionButton(String option) {
+    bool isCorrect = option == currentCountry;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 800),
+        curve: Curves.easeInOut,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          gradient: LinearGradient(
+            colors: isAnswered
+                ? (isCorrect ? [Colors.green, Colors.lightGreen] : [Colors.red, Colors.redAccent])
+                : [MyColors.blackGreyColor, Colors.black],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 15,
+              offset: Offset(0, 8),
+            ),
+          ],
+        ),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+          ),
+          onPressed: isAnswered ? null : () => _handleAnswer(option),
+          child: SizedBox(
+            width: 250,
+            height: 50,
+            child: Center(
+              child: Text(
+                option,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontFamily: 'bebas',
+                  foreground: Paint()
+                    ..style = PaintingStyle.fill
+                    ..strokeWidth = 0.5
+                    ..color = MyColors.whiteColor,
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
-      child: Text(option, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
     );
   }
 
@@ -178,6 +217,10 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   void _delayedNextFlag() {
-    Timer(const Duration(seconds: 2), _showRandomFlag);
+    Timer(const Duration(seconds: 2), () {
+      setState(() {
+        _showRandomFlag();
+      });
+    });
   }
 }
