@@ -26,7 +26,7 @@ Flag Master is a mobile app designed to test and improve your knowledge of world
 
 you can try it by downloading it directly from <a href="https://download1584.mediafire.com/qowc8k9a75qgvPYwLxUc_8jiPHEJWbRM-235X1T2ZNwVAs2e9mpnOc8Ktc0GX6oMF88J-1wipnHGaw0sv3ImdZg6NcylAu5OgPECx_t7etk0dZD22fIxUF39N5Ci2IE-2MmZZKMzRv-3Sih76F97uUOb69QIjG_9sSe2BiXaBPc7IA/rzqms69p7qm3ohr/FlagMaster.apk">HERE</a></h3>
 
-or the live version here : 
+or visit the updated web browser version here : 
 https://flag-master-m8n8a0gkq-omars-projects-d2e2bf01.vercel.app/
 
 
