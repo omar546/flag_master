@@ -17,8 +17,8 @@ Flag Master is a mobile app designed to test and improve your knowledge of world
 - **Flag Guessing Game:** Test your knowledge by guessing the country based on its flag.
 - **Score Tracking:** Keep track of your score as you answer correctly or make mistakes.
 
-## Screenshots
-![on git hub show apps](https://github.com/omar546/flag_master/assets/71936776/7fb4e1c6-f1ce-4240-b53b-dcd4f263a3dc)
+<!--## Screenshots
+<!--![on git hub show apps](https://github.com/omar546/flag_master/assets/71936776/7fb4e1c6-f1ce-4240-b53b-dcd4f263a3dc)-->
 
 
 
