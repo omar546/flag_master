@@ -41,7 +41,7 @@ dependencies:
   conditional_builder_null_safety: ^0.0.6
   shared_preferences: ^2.2.0
   smooth_page_indicator: ^1.1.0
-  fluttertoast: ^8.2.2
+  fluttertoast: ^8.2.5
   carousel_slider: ^4.2.1
   audioplayers: ^5.2.1
 
