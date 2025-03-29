@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math';
-import 'package:flag_master/shared/styles/colors.dart';
 import 'package:flutter/material.dart';
 import '../../data/flag_data.dart';
 import '../../network/local/cache_helper.dart';
@@ -19,17 +18,17 @@ class _GameScreenState extends State<GameScreen> {
   List<String> options = [];
   bool isAnswered = false;
   int score = 0;
-// ...
+
   final player = AudioPlayer();
   final player2 = AudioPlayer();
+
   @override
   void initState() {
     super.initState();
-    _loadScore(); // Load the score when the screen is initialized
+    _loadScore();
     _showRandomFlag();
   }
 
-  // Load the score from SharedPreferences
   Future<void> _loadScore() async {
     int? savedScore = await CacheHelper.getData(key: 'score');
     if (savedScore != null) {
@@ -39,7 +38,6 @@ class _GameScreenState extends State<GameScreen> {
     }
   }
 
-  // Save the score to SharedPreferences
   Future<void> _saveScore() async {
     await CacheHelper.saveData(key: 'score', value: score);
   }
@@ -78,49 +76,82 @@ class _GameScreenState extends State<GameScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('Score: $score',style: TextStyle(fontFamily: 'futura',fontSize: 20,color: MyColors.blackColor),)),
+        title: Text('Score: $score', style: Theme.of(context).textTheme.titleLarge),
+        centerTitle: true,
+        elevation: 0,
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image(image: AssetImage(currentFlagPath)),
-            const SizedBox(height: 30),
-            _buildOptionButton(options[0]),
-            _buildOptionButton(options[1]),
-            _buildOptionButton(options[2]),
-            _buildOptionButton(options[3]),
-          ],
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            bool isWide = constraints.maxWidth > 600;
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.easeInOut,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 15,
+                            spreadRadius: 3,
+                          ),
+                        ],
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.asset(
+                          currentFlagPath,
+                          width: isWide ? 450 : 300,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 40),
+                    Wrap(
+                      spacing: 20,
+                      runSpacing: 20,
+                      alignment: WrapAlignment.center,
+                      children: options.map((option) => _buildOptionButton(option, isWide)).toList(),
+                    ),
+                    const SizedBox(height: 30),
+                    ElevatedButton.icon(
+                      onPressed: _showRandomFlag,
+                      icon: const Icon(Icons.refresh, size: 28),
+                      label: const Text('Next Flag', style: TextStyle(fontSize: 18)),
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
         ),
       ),
     );
   }
 
-  Widget _buildOptionButton(String option) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5.0),
-      child: ElevatedButton(
-        onPressed: () {
-          if (!isAnswered) {
-            _handleAnswer(option);
-          }
-        },
-        style: ButtonStyle(
-          backgroundColor: isAnswered
-              ? (option == currentCountry
-              ? MaterialStateProperty.all(Colors.green)
-              : MaterialStateProperty.all(Colors.red))
-              : MaterialStateProperty.all(MyColors.blackGreyColor),
-        ),
-        child: SizedBox(
-          width: 300,
-          height: 50,
-          child: Center(child: Text(option,textAlign: TextAlign.center,style: TextStyle(fontSize: 20,fontFamily: 'bebas',foreground: Paint()
-            ..style = PaintingStyle.fill
-            ..strokeWidth = .5
-            ..color = MyColors.whiteColor,),)),
-        ),
+  Widget _buildOptionButton(String option, bool isWide) {
+    return ElevatedButton(
+      onPressed: () => !isAnswered ? _handleAnswer(option) : null,
+      style: ElevatedButton.styleFrom(
+        foregroundColor: Colors.white,
+        backgroundColor: isAnswered
+            ? (option == currentCountry ? Colors.green : Colors.red)
+            : Colors.blueAccent,
+        padding: EdgeInsets.symmetric(vertical: 16, horizontal: isWide ? 80 : 50),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       ),
+      child: Text(option, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
     );
   }
 
@@ -134,25 +165,19 @@ class _GameScreenState extends State<GameScreen> {
         score++;
       });
       await player.play(AssetSource('sound/correct.mp3'));
-
     } else {
       setState(() {
         score--;
       });
       await player2.play(AssetSource('sound/wrong.mp3'));
-
     }
 
-    _saveScore(); // Save the score after updating it
+    _saveScore();
 
     _delayedNextFlag();
   }
 
   void _delayedNextFlag() {
-    Timer(const Duration(seconds: 2), () {
-      setState(() {
-        _showRandomFlag();
-      });
-    });
+    Timer(const Duration(seconds: 2), _showRandomFlag);
   }
 }
