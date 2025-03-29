@@ -51,7 +51,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black54,
+      backgroundColor: Colors.black87,
       appBar: AppBar(
         actions: [
           customTextButton(
