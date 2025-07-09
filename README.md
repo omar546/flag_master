@@ -24,10 +24,9 @@ Flag Master is a mobile app designed to test and improve your knowledge of world
 
 ## Getting Started
 
-you can try it by downloading it directly from the releases
+you can try it by downloading it directly from the [releases](../../releases)
 
-or visit the updated desktop web version here : 
-https://flag-master-kappa.vercel.app/
+or visit the updated [desktop web version](https://flag-master-kappa.vercel.app/)
 
 
 
