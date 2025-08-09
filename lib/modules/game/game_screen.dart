@@ -98,10 +98,15 @@ class _GameScreenState extends State<GameScreen>
   }
 
   // Theme-aware color getters
-  Color get _backgroundColor => isDarkTheme ? const Color(0xFF121212) : const Color(0xFFF5F5F5);
+  Color get _backgroundColor =>
+      isDarkTheme ? const Color(0xFF121212) : const Color(0xFFF5F5F5);
+
   Color get _cardColor => isDarkTheme ? const Color(0xFF1E1E1E) : Colors.white;
+
   Color get _textColor => isDarkTheme ? Colors.white : Colors.grey[800]!;
-  Color get _subtitleColor => isDarkTheme ? Colors.grey[400]! : Colors.grey[600]!;
+
+  Color get _subtitleColor =>
+      isDarkTheme ? Colors.grey[400]! : Colors.grey[600]!;
 
   void _showRandomFlag() {
     setState(() {
@@ -117,7 +122,8 @@ class _GameScreenState extends State<GameScreen>
     } while (recentFlags.contains(randomCountry) && countryNames.length > 1);
 
     recentFlags.add(randomCountry);
-    if (recentFlags.length > 10) { // Increased to avoid repetition
+    if (recentFlags.length > 10) {
+      // Increased to avoid repetition
       recentFlags.removeAt(0);
     }
 
@@ -133,7 +139,8 @@ class _GameScreenState extends State<GameScreen>
     _animationController.forward(from: 0);
   }
 
-  List<String> _getRandomOptions(List<String> allOptions, String correctOption) {
+  List<String> _getRandomOptions(
+      List<String> allOptions, String correctOption) {
     final random = math.Random();
     final randomOptions = <String>[correctOption];
 
@@ -166,7 +173,9 @@ class _GameScreenState extends State<GameScreen>
       leading: Container(
         margin: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: isDarkTheme ? Colors.amber.withOpacity(0.1) : Colors.orange.withOpacity(0.1),
+          color: isDarkTheme
+              ? Colors.amber.withOpacity(0.1)
+              : Colors.orange.withOpacity(0.1),
           borderRadius: BorderRadius.circular(12),
         ),
         child: IconButton(
@@ -186,9 +195,8 @@ class _GameScreenState extends State<GameScreen>
           tooltip: isDarkTheme ? 'Switch to Light Mode' : 'Switch to Dark Mode',
         ),
       ),
-      title: isLargeScreen
-          ? _buildLargeScreenHeader()
-          : _buildSmallScreenHeader(),
+      title:
+          isLargeScreen ? _buildLargeScreenHeader() : _buildSmallScreenHeader(),
       centerTitle: true,
     );
   }
@@ -199,9 +207,11 @@ class _GameScreenState extends State<GameScreen>
       children: [
         _buildScoreCard('Score', score.toString(), Icons.stars, Colors.amber),
         const SizedBox(width: 20),
-        _buildScoreCard('Streak', streak.toString(), Icons.local_fire_department, Colors.orange),
+        _buildScoreCard('Streak', streak.toString(),
+            Icons.local_fire_department, Colors.orange),
         const SizedBox(width: 20),
-        _buildScoreCard('Best', bestStreak.toString(), Icons.emoji_events, Colors.purple),
+        _buildScoreCard(
+            'Best', bestStreak.toString(), Icons.emoji_events, Colors.purple),
       ],
     );
   }
@@ -222,14 +232,16 @@ class _GameScreenState extends State<GameScreen>
           children: [
             _buildCompactScore('Score: $score', Icons.stars, Colors.amber),
             const SizedBox(width: 15),
-            _buildCompactScore('Streak: $streak', Icons.local_fire_department, Colors.orange),
+            _buildCompactScore(
+                'Streak: $streak', Icons.local_fire_department, Colors.orange),
           ],
         ),
       ],
     );
   }
 
-  Widget _buildScoreCard(String label, String value, IconData icon, Color color) {
+  Widget _buildScoreCard(
+      String label, String value, IconData icon, Color color) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
@@ -391,12 +403,16 @@ class _GameScreenState extends State<GameScreen>
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) {
                           return Container(
-                            color: isDarkTheme ? Colors.grey[800] : Colors.grey[300],
+                            color: isDarkTheme
+                                ? Colors.grey[800]
+                                : Colors.grey[300],
                             child: Center(
                               child: Icon(
                                 Icons.flag,
                                 size: 50,
-                                color: isDarkTheme ? Colors.grey[600] : Colors.grey,
+                                color: isDarkTheme
+                                    ? Colors.grey[600]
+                                    : Colors.grey,
                               ),
                             ),
                           );
@@ -417,6 +433,9 @@ class _GameScreenState extends State<GameScreen>
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        isDesktop
+            ? SizedBox(height: MediaQuery.sizeOf(context).height * 0.25)
+            : const SizedBox.shrink(),
         Text(
           'Which country is this?',
           style: TextStyle(
@@ -455,7 +474,8 @@ class _GameScreenState extends State<GameScreen>
     );
   }
 
-  Widget _buildOptionButton(String option, int index, {required bool isDesktop}) {
+  Widget _buildOptionButton(String option, int index,
+      {required bool isDesktop}) {
     final isCorrect = option == currentCountry;
     final isSelected = isAnswered;
 
@@ -476,19 +496,20 @@ class _GameScreenState extends State<GameScreen>
         gradient: LinearGradient(
           colors: isSelected
               ? (isCorrect
-              ? [Colors.green, Colors.lightGreen]
-              : [Colors.red, Colors.redAccent])
+                  ? [Colors.green, Colors.lightGreen]
+                  : [Colors.red, Colors.redAccent])
               : isDarkTheme
-              ? [const Color(0xFF2D3748), const Color(0xFF4A5568)]
-              : [buttonColor, buttonColor.withOpacity(0.8)],
+                  ? [const Color(0xFF2D3748), const Color(0xFF4A5568)]
+                  : [buttonColor, buttonColor.withOpacity(0.8)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         boxShadow: [
           BoxShadow(
             color: (isSelected
-                ? (isCorrect ? Colors.green : Colors.red)
-                : buttonColor).withOpacity(0.3),
+                    ? (isCorrect ? Colors.green : Colors.red)
+                    : buttonColor)
+                .withOpacity(0.3),
             blurRadius: 12,
             offset: const Offset(0, 6),
           ),
