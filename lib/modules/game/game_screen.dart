@@ -19,6 +19,7 @@ class _GameScreenState extends State<GameScreen>
   List<String> options = [];
   bool isAnswered = false;
   bool isLoading = false;
+  bool isDarkTheme = false;
   int score = 0;
   int questionNumber = 1;
   int streak = 0;
@@ -72,11 +73,13 @@ class _GameScreenState extends State<GameScreen>
   Future<void> _loadGameData() async {
     final savedScore = await CacheHelper.getData(key: 'score');
     final savedBestStreak = await CacheHelper.getData(key: 'best_streak');
+    final savedTheme = await CacheHelper.getData(key: 'dark_theme');
 
     if (mounted) {
       setState(() {
         score = savedScore ?? 0;
         bestStreak = savedBestStreak ?? 0;
+        isDarkTheme = savedTheme ?? false;
       });
     }
   }
@@ -84,7 +87,21 @@ class _GameScreenState extends State<GameScreen>
   Future<void> _saveGameData() async {
     await CacheHelper.saveData(key: 'score', value: score);
     await CacheHelper.saveData(key: 'best_streak', value: bestStreak);
+    await CacheHelper.saveData(key: 'dark_theme', value: isDarkTheme);
   }
+
+  Future<void> _toggleTheme() async {
+    setState(() {
+      isDarkTheme = !isDarkTheme;
+    });
+    await _saveGameData();
+  }
+
+  // Theme-aware color getters
+  Color get _backgroundColor => isDarkTheme ? const Color(0xFF121212) : const Color(0xFFF5F5F5);
+  Color get _cardColor => isDarkTheme ? const Color(0xFF1E1E1E) : Colors.white;
+  Color get _textColor => isDarkTheme ? Colors.white : Colors.grey[800]!;
+  Color get _subtitleColor => isDarkTheme ? Colors.grey[400]! : Colors.grey[600]!;
 
   void _showRandomFlag() {
     setState(() {
@@ -134,7 +151,7 @@ class _GameScreenState extends State<GameScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
+      backgroundColor: _backgroundColor,
       appBar: _buildAppBar(context),
       body: _buildBody(context),
     );
@@ -144,8 +161,31 @@ class _GameScreenState extends State<GameScreen>
     final isLargeScreen = MediaQuery.of(context).size.width > 600;
 
     return AppBar(
-      elevation: 0,
-      backgroundColor: Colors.white,
+      elevation: isDarkTheme ? 4 : 0,
+      backgroundColor: _cardColor,
+      leading: Container(
+        margin: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: isDarkTheme ? Colors.amber.withOpacity(0.1) : Colors.orange.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: IconButton(
+          onPressed: _toggleTheme,
+          icon: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300),
+            transitionBuilder: (Widget child, Animation<double> animation) {
+              return RotationTransition(turns: animation, child: child);
+            },
+            child: Icon(
+              isDarkTheme ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
+              key: ValueKey(isDarkTheme),
+              color: isDarkTheme ? Colors.amber : Colors.orange,
+              size: 24,
+            ),
+          ),
+          tooltip: isDarkTheme ? 'Switch to Light Mode' : 'Switch to Dark Mode',
+        ),
+      ),
       title: isLargeScreen
           ? _buildLargeScreenHeader()
           : _buildSmallScreenHeader(),
@@ -171,10 +211,10 @@ class _GameScreenState extends State<GameScreen>
       children: [
         Text(
           'Question $questionNumber',
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,
-            color: Colors.grey,
+            color: _subtitleColor,
           ),
         ),
         Row(
@@ -193,7 +233,7 @@ class _GameScreenState extends State<GameScreen>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: isDarkTheme ? color.withOpacity(0.2) : color.withOpacity(0.1),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: color.withOpacity(0.3)),
       ),
@@ -209,7 +249,7 @@ class _GameScreenState extends State<GameScreen>
                 label,
                 style: TextStyle(
                   fontSize: 12,
-                  color: Colors.grey[600],
+                  color: _subtitleColor,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -232,7 +272,7 @@ class _GameScreenState extends State<GameScreen>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: isDarkTheme ? color.withOpacity(0.2) : color.withOpacity(0.1),
         borderRadius: BorderRadius.circular(15),
       ),
       child: Row(
@@ -259,9 +299,11 @@ class _GameScreenState extends State<GameScreen>
     final isMediumScreen = screenSize.width > 600;
 
     if (isLoading) {
-      return const Center(
+      return Center(
         child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+          valueColor: AlwaysStoppedAnimation<Color>(
+            isDarkTheme ? Colors.amber : Colors.blue,
+          ),
         ),
       );
     }
@@ -349,12 +391,12 @@ class _GameScreenState extends State<GameScreen>
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) {
                           return Container(
-                            color: Colors.grey[300],
-                            child: const Center(
+                            color: isDarkTheme ? Colors.grey[800] : Colors.grey[300],
+                            child: Center(
                               child: Icon(
                                 Icons.flag,
                                 size: 50,
-                                color: Colors.grey,
+                                color: isDarkTheme ? Colors.grey[600] : Colors.grey,
                               ),
                             ),
                           );
@@ -380,7 +422,7 @@ class _GameScreenState extends State<GameScreen>
           style: TextStyle(
             fontSize: isDesktop ? 24 : 20,
             fontWeight: FontWeight.bold,
-            color: Colors.grey[800],
+            color: _textColor,
           ),
           textAlign: TextAlign.center,
         ),
@@ -436,13 +478,17 @@ class _GameScreenState extends State<GameScreen>
               ? (isCorrect
               ? [Colors.green, Colors.lightGreen]
               : [Colors.red, Colors.redAccent])
+              : isDarkTheme
+              ? [const Color(0xFF2D3748), const Color(0xFF4A5568)]
               : [buttonColor, buttonColor.withOpacity(0.8)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         boxShadow: [
           BoxShadow(
-            color: buttonColor.withOpacity(0.3),
+            color: (isSelected
+                ? (isCorrect ? Colors.green : Colors.red)
+                : buttonColor).withOpacity(0.3),
             blurRadius: 12,
             offset: const Offset(0, 6),
           ),
