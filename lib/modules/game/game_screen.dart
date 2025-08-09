@@ -217,25 +217,13 @@ class _GameScreenState extends State<GameScreen>
   }
 
   Widget _buildSmallScreenHeader() {
-    return Column(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          'Question $questionNumber',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            color: _subtitleColor,
-          ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _buildCompactScore('Score: $score', Icons.stars, Colors.amber),
-            const SizedBox(width: 15),
-            _buildCompactScore(
-                'Streak: $streak', Icons.local_fire_department, Colors.orange),
-          ],
-        ),
+        _buildCompactScore('Score: $score', Icons.stars, Colors.amber),
+        const SizedBox(width: 15),
+        _buildCompactScore(
+            'Streak: $streak', Icons.local_fire_department, Colors.orange),
       ],
     );
   }
@@ -358,7 +346,6 @@ class _GameScreenState extends State<GameScreen>
             flex: isMediumScreen ? 2 : 1,
             child: _buildFlagSection(),
           ),
-          const SizedBox(height: 20),
           Expanded(
             flex: 1,
             child: _buildOptionsSection(isDesktop: false),
