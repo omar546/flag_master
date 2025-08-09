@@ -1,5 +1,5 @@
 Map<String, String> countryFlagPaths = {
-  'Pig-shit (Aggressor)': 'assets/flags/il.png',
+  // 'Pig-shit (Aggressor)': 'assets/flags/il.png',
   'Andorra': 'assets/flags/ad.png',
   'United Arab Emirates': 'assets/flags/ae.png',
   'Afghanistan': 'assets/flags/af.png',
